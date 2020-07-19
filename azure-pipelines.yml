@@ -3,12 +3,12 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+trigger:
+- master
+
 variables:
   rootDir: 'my-app'
   buildDir: '$(rootDir)/build'
-
-trigger:
-- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -18,9 +18,6 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
 - script: |
     cd $(rootDir)
@@ -36,6 +33,7 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
